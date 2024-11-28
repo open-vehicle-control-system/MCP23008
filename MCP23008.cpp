@@ -41,9 +41,10 @@ bool MCP23008::begin(bool pullup)
 bool MCP23008::isConnected()
 {
   _wire->beginTransmission(_address);
-  if (_wire->endTransmission() != 0)
+  uint8_t error = _wire->endTransmission();
+  if (error != 0)
   {
-    _error = MCP23008_I2C_ERROR;
+    _error = error;
     return false;
   }
   _error = MCP23008_OK;
@@ -486,9 +487,10 @@ bool MCP23008::writeReg(uint8_t reg, uint8_t value)
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value);
-  if (_wire->endTransmission() != 0)
+  uint8_t error = _wire->endTransmission();
+  if (error != 0)
   {
-    _error = MCP23008_I2C_ERROR;
+    _error = error;
     return false;
   }
   _error = MCP23008_OK;
@@ -500,15 +502,16 @@ uint8_t MCP23008::readReg(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  if (_wire->endTransmission() != 0)
+  uint8_t error = _wire->endTransmission();
+  if (error != 0)
   {
-    _error = MCP23008_I2C_ERROR;
+    _error = error;
     return 0;
   }
-  uint8_t n = _wire->requestFrom(_address, (uint8_t)1);
-  if (n != 1)
+  uint8_t bytes_count = _wire->requestFrom(_address, (uint8_t)1);
+  if (bytes_count != 1)
   {
-    _error = MCP23008_I2C_ERROR;
+    _error = MCP23008_I2C_INVALID_READ_BYTE_COUNT_ERROR;
     return 0;
   }
   _error = MCP23008_OK;

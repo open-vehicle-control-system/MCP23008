@@ -20,9 +20,16 @@
 #define MCP23008_I2C_ERROR                0x82
 #define MCP23008_VALUE_ERROR              0x83
 #define MCP23008_PORT_ERROR               0x84
+#define MCP23008_I2C_INVALID_READ_BYTE_COUNT_ERROR 0x85
 #define MCP23008_REGISTER_ERROR           0xFF
 #define MCP23008_INVALID_READ             0xFF
 
+0: success.
+1: data too long to fit in transmit buffer.
+2: received NACK on transmit of address.
+3: received NACK on transmit of data.
+4: other error.
+5: timeout
 
 class MCP23008
 {
@@ -48,7 +55,7 @@ public:
 
 
   //       8 pins interface
-  //       mask  = 0x00..0xFF  bit pattern, 
+  //       mask  = 0x00..0xFF  bit pattern,
   //               bit 0 = output mode, bit 1 = input mode
   //       value = bit pattern.
   bool     pinMode8(uint8_t mask);
