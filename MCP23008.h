@@ -24,13 +24,6 @@
 #define MCP23008_REGISTER_ERROR           0xFF
 #define MCP23008_INVALID_READ             0xFF
 
-0: success.
-1: data too long to fit in transmit buffer.
-2: received NACK on transmit of address.
-3: received NACK on transmit of data.
-4: other error.
-5: timeout
-
 class MCP23008
 {
 public:
